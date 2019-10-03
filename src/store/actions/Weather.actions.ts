@@ -1,4 +1,4 @@
-import { Weather } from "../types/Weather";
+import { Weather } from "../../types/Weather";
 import { Action } from "redux";
 
 export enum WeatherActionTypes {

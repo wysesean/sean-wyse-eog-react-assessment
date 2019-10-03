@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, ChangeEvent } from "react";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import { makeStyles } from "@material-ui/core/styles";
@@ -9,6 +9,10 @@ import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import Checkbox from "@material-ui/core/Checkbox";
 import ListItemText from "@material-ui/core/ListItemText";
+import { useQuery } from "urql";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../store/index";
+import { MetricsActionTypes } from "../store/actions/Metric.actions";
 
 const useStyles = makeStyles(theme => ({
   card: {
@@ -27,7 +31,6 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
 
@@ -40,22 +43,50 @@ const MenuProps = {
   }
 };
 
-const metrics = [
-  "tubingPressure",
-  "flareTemp",
-  "injValveOpen",
-  "oilTemp",
-  "casingPRessure",
-  "waterTemp"
-];
+const query = `
+query {
+  getMetrics
+}
+`;
+
+const getMetrics = (state: RootState) => {
+  const { selected, metrics } = state.metrics;
+  return {
+    selected,
+    metrics
+  };
+};
 
 export default () => {
   const classes = useStyles();
-  const [metricName, setMetrics] = React.useState<string[]>([]);
+  const dispatch = useDispatch();
+  const { selected, metrics } = useSelector(getMetrics);
 
-  const handleChange = (event: any) => {
-    setMetrics(event.target.value);
+  const handleChange = (event: ChangeEvent<any>): void => {
+    dispatch({
+      type: MetricsActionTypes.METRICS_SELECTED,
+      selected: event.target.value
+    });
   };
+
+  const [result] = useQuery({
+    query
+  });
+
+  const { data, error } = result;
+
+  useEffect(() => {
+    if (error) {
+      dispatch({ type: MetricsActionTypes.API_ERROR, error: error.message });
+      return;
+    }
+    if (!data) return;
+    const { getMetrics } = data;
+    dispatch({
+      type: MetricsActionTypes.METRICS_RECEIVED,
+      getMetrics
+    });
+  }, [dispatch, data, error]);
 
   return (
     <Card className={classes.card}>
@@ -64,7 +95,7 @@ export default () => {
           <InputLabel htmlFor="select-multiple-checkbox">Metrics</InputLabel>
           <Select
             multiple
-            value={metricName}
+            value={selected}
             onChange={handleChange}
             input={<Input id="select-multiple-checkbox" />}
             renderValue={selected => (selected as string[]).join(", ")}
@@ -72,7 +103,7 @@ export default () => {
           >
             {metrics.map(name => (
               <MenuItem key={name} value={name}>
-                <Checkbox checked={metricName.indexOf(name) > -1} />
+                <Checkbox checked={selected.indexOf(name) > -1} />
                 <ListItemText primary={name} />
               </MenuItem>
             ))}

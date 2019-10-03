@@ -10,8 +10,12 @@ import Wrapper from "./components/Wrapper";
 import Chart from "./components/Chart";
 import ChartHeader from './components/ChartHeader';
 import UIThemes from "./themes/ui-themes";
+import { Provider as ProviderGraphql, createClient } from 'urql';
 
 const store = createStore();
+const client = createClient({
+  url: "https://react.eogresources.com/graphql"
+});
 const theme = createMuiTheme({
   palette: { ...UIThemes.palette }
 });
@@ -20,12 +24,14 @@ const App = () => (
   <MuiThemeProvider theme={theme}>
     <CssBaseline />
     <Provider store={store}>
-      <Wrapper>
-        <Header />
-        <ChartHeader />
-        <Chart />
-        <ToastContainer />
-      </Wrapper>
+      <ProviderGraphql value={client}>
+        <Wrapper>
+          <Header />
+          <ChartHeader />
+          <Chart />
+          <ToastContainer />
+        </Wrapper>
+      </ProviderGraphql>
     </Provider>
   </MuiThemeProvider>
 );

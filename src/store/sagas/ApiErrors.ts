@@ -1,4 +1,4 @@
-import { WeatherActionTypes, APIErrorAction } from "../actions";
+import { WeatherActionTypes, APIErrorAction } from "../actions/Weather.actions";
 import { takeEvery, call } from "redux-saga/effects";
 import { toast } from "react-toastify";
 

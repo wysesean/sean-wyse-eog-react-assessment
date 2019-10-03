@@ -1,15 +1,11 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { WeatherActionTypes } from "../store/actions";
-import { Provider, createClient, useQuery } from "urql";
+import { WeatherActionTypes } from "../store/actions/Weather.actions";
+import { useQuery } from "urql";
 import { useGeolocation } from "react-use";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import Chip from "./Chip";
 import { RootState } from '../store/index';
-
-const client = createClient({
-  url: "https://react.eogresources.com/graphql"
-});
 
 const query = `
 query($latLong: WeatherQuery!) {
@@ -31,14 +27,6 @@ const getWeather = (state: RootState) => {
 };
 
 export default () => {
-  return (
-    <Provider value={client}>
-      <Weather />
-    </Provider>
-  );
-};
-
-const Weather = () => {
   const getLocation = useGeolocation();
   // Default to houston
   const latLong = {

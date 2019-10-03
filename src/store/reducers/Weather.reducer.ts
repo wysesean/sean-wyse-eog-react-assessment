@@ -2,10 +2,10 @@ import {
   WeatherActions,
   WeatherActionTypes,
   WeatherDataReceivedAction
-} from "./../actions";
-import { Weather } from '../../types/Weather';
+} from "../actions/Weather.actions";
+import { Weather } from "../../types/Weather";
 export interface WeatherState extends Weather {
-  temperatureinFahrenheit: number | null
+  temperatureinFahrenheit: number | null;
 }
 
 const initialState: WeatherState = {
