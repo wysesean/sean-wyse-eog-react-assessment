@@ -7,7 +7,8 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import "react-toastify/dist/ReactToastify.css";
 import Header from "./components/Header";
 import Wrapper from "./components/Wrapper";
-import NowWhat from "./components/NowWhat";
+import Chart from "./components/Chart";
+import ChartHeader from './components/ChartHeader';
 import UIThemes from "./themes/ui-themes";
 
 const store = createStore();
@@ -21,7 +22,8 @@ const App = () => (
     <Provider store={store}>
       <Wrapper>
         <Header />
-        <NowWhat />
+        <ChartHeader />
+        <Chart />
         <ToastContainer />
       </Wrapper>
     </Provider>
