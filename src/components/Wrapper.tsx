@@ -5,7 +5,9 @@ import UIThemes from '../themes/ui-themes'
 const useStyles = makeStyles((theme: Theme) => ({
   wrapper: {
     background: UIThemes.background.main,
-    height: "100vh"
+    display: "flex",
+    height: "100vh",
+    flexDirection: "column"
   }
 }));
 

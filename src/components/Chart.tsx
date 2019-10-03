@@ -1,4 +1,6 @@
 import React from "react";
+import { useMeasure } from "react-use";
+
 import Paper from "@material-ui/core/Paper";
 import {
   LineChart,
@@ -13,9 +15,13 @@ import {
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles({
+  chartContainer: {
+    display: "flex",
+    flexGrow: 1,
+    margin: "8px 16px"
+  },
   paper: {
-    margin: "16px",
-    padding: "8px 16px"
+    width: "100%"
   }
 });
 
@@ -31,30 +37,33 @@ const data = [
 
 export default () => {
   const classes = useStyles();
+  const [ref, { width = 500, height = 300 }] = useMeasure();
 
   return (
-    <Paper className={classes.paper}>
-      <LineChart
-        width={600}
-        height={300}
-        data={data}
-        margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-      >
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="name" />
-        <YAxis yAxisId="left" padding={{ top: 10, bottom: 0 }} />
-        <YAxis yAxisId="right" padding={{ top: 10, bottom: 0 }} />
-        <Tooltip />
-        <Legend />
-        <Line
-          yAxisId="left"
-          type="monotone"
-          dataKey="pv"
-          stroke="#8884d8"
-          activeDot={{ r: 8 }}
-        />
-        <Line yAxisId="right" type="monotone" dataKey="uv" stroke="#82ca9d" />
-      </LineChart>
-    </Paper>
+    <div ref={ref} className={classes.chartContainer}>
+      <Paper className={classes.paper}>
+        <LineChart
+          width={width}
+          height={height}
+          data={data}
+          margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+        >
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="name" />
+          <YAxis yAxisId="left" padding={{ top: 10, bottom: 0 }} />
+          <YAxis yAxisId="right" padding={{ top: 10, bottom: 0 }} />
+          <Tooltip />
+          <Legend />
+          <Line
+            yAxisId="left"
+            type="monotone"
+            dataKey="pv"
+            stroke="#8884d8"
+            activeDot={{ r: 8 }}
+          />
+          <Line yAxisId="right" type="monotone" dataKey="uv" stroke="#82ca9d" />
+        </LineChart>
+      </Paper>
+    </div>
   );
 };

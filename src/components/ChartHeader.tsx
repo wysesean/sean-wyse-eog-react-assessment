@@ -1,6 +1,4 @@
 import React, { useEffect, ChangeEvent } from "react";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
 import { makeStyles } from "@material-ui/core/styles";
 import FormControl from "@material-ui/core/FormControl";
 import Input from "@material-ui/core/Input";
@@ -13,17 +11,19 @@ import { useQuery } from "urql";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store/index";
 import { MetricsActionTypes } from "../store/actions/Metric.actions";
+import { Paper } from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
-  card: {
-    margin: "5% 25%"
-  },
-  root: {
+  container: {
     display: "flex",
-    flexWrap: "wrap"
+    flexGrow: 1,
+    margin: "8px 16px"
+  },
+  paper: {
+    width: "100%",
+    padding: "8px"
   },
   formControl: {
-    margin: theme.spacing(1),
     width: "100%"
   },
   noLabel: {
@@ -89,8 +89,8 @@ export default () => {
   }, [dispatch, data, error]);
 
   return (
-    <Card className={classes.card}>
-      <CardContent>
+    <div className={classes.container}>
+      <Paper className={classes.paper}>
         <FormControl className={classes.formControl}>
           <InputLabel htmlFor="select-multiple-checkbox">Metrics</InputLabel>
           <Select
@@ -109,7 +109,7 @@ export default () => {
             ))}
           </Select>
         </FormControl>
-      </CardContent>
-    </Card>
+      </Paper>
+    </div>
   );
 };
