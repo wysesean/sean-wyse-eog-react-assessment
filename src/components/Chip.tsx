@@ -1,7 +1,7 @@
 import Chip from "@material-ui/core/Chip";
-import { withStyles } from "@material-ui/core/styles";
+import { withStyles, Theme } from "@material-ui/core/styles";
 
-const cardStyles = theme => ({
+const cardStyles = (theme: Theme) => ({
   root: {
     background: theme.palette.secondary.main
   },

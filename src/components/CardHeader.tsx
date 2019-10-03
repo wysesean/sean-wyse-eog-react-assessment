@@ -1,7 +1,7 @@
 import CardHeader from "@material-ui/core/CardHeader";
-import { withStyles } from "@material-ui/core/styles";
+import { withStyles, Theme } from "@material-ui/core/styles";
 
-const styles = theme => ({
+const styles = (theme: Theme) => ({
   root: {
     background: theme.palette.primary.main
   },
