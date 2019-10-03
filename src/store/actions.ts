@@ -1,2 +1,18 @@
-export const API_ERROR = "EVENT/API_ERROR_RECEIVED";
-export const WEATHER_DATA_RECEIVED = "EVENT/WEATHER_DATA_RECEIVED";
+import { Weather } from "../types/Weather";
+import { Action } from "redux";
+
+export enum WeatherActionTypes {
+  API_ERROR = "EVENT/API_ERROR_RECEIVED",
+  WEATHER_DATA_RECEIVED = "EVENT/WEATHER_DATA_RECEIVED"
+}
+
+export interface APIErrorAction extends Action<WeatherActionTypes.API_ERROR> {
+  error: string;
+}
+
+export interface WeatherDataReceivedAction
+  extends Action<WeatherActionTypes.WEATHER_DATA_RECEIVED> {
+  getWeatherForLocation: Weather;
+}
+
+export type WeatherActions = APIErrorAction | WeatherDataReceivedAction;

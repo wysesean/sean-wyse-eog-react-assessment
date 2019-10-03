@@ -8,26 +8,14 @@ import "react-toastify/dist/ReactToastify.css";
 import Header from "./components/Header";
 import Wrapper from "./components/Wrapper";
 import NowWhat from "./components/NowWhat";
+import UIThemes from "./themes/ui-themes";
 
 const store = createStore();
 const theme = createMuiTheme({
-  typography: {
-    useNextVariants: true
-  },
-  palette: {
-    primary: {
-      main: "rgb(39,49,66)"
-    },
-    secondary: {
-      main: "rgb(197,208,222)"
-    },
-    background: {
-      main: "rgb(226,231,238)"
-    }
-  }
+  palette: { ...UIThemes.palette }
 });
 
-const App = props => (
+const App = () => (
   <MuiThemeProvider theme={theme}>
     <CssBaseline />
     <Provider store={store}>

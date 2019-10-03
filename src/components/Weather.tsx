@@ -1,10 +1,11 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import * as actions from "../store/actions";
+import { WeatherActionTypes } from "../store/actions";
 import { Provider, createClient, useQuery } from "urql";
 import { useGeolocation } from "react-use";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import Chip from "./Chip";
+import { RootState } from '../store/index';
 
 const client = createClient({
   url: "https://react.eogresources.com/graphql"
@@ -20,7 +21,7 @@ query($latLong: WeatherQuery!) {
 }
 `;
 
-const getWeather = state => {
+const getWeather = (state: RootState) => {
   const { temperatureinFahrenheit, description, locationName } = state.weather;
   return {
     temperatureinFahrenheit,
@@ -59,12 +60,12 @@ const Weather = () => {
   useEffect(
     () => {
       if (error) {
-        dispatch({ type: actions.API_ERROR, error: error.message });
+        dispatch({ type: WeatherActionTypes.API_ERROR, error: error.message });
         return;
       }
       if (!data) return;
       const { getWeatherForLocation } = data;
-      dispatch({ type: actions.WEATHER_DATA_RECEIVED, getWeatherForLocation });
+      dispatch({ type: WeatherActionTypes.WEATHER_DATA_RECEIVED, getWeatherForLocation });
     },
     [dispatch, data, error]
   );

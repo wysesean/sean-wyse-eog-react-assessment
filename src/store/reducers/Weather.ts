@@ -1,16 +1,24 @@
-import * as actions from "../actions";
+import {
+  WeatherActions,
+  WeatherActionTypes,
+  WeatherDataReceivedAction
+} from "./../actions";
+import { Weather } from '../../types/Weather';
+export interface WeatherState extends Weather {
+  temperatureinFahrenheit: number | null
+}
 
-const initialState = {
+const initialState: WeatherState = {
   temperatureinCelsius: null,
   temperatureinFahrenheit: null,
   description: "",
   locationName: ""
 };
 
-const toF = c => (c * 9) / 5 + 32;
+const toF = (c: number) => (c * 9) / 5 + 32;
 
-const weatherDataRecevied = (state, action) => {
-  const { getWeatherForLocation } = action;
+const weatherDataRecevied = (state: WeatherState, action: WeatherActions) => {
+  const { getWeatherForLocation } = action as WeatherDataReceivedAction;
   const {
     description,
     locationName,
@@ -19,17 +27,20 @@ const weatherDataRecevied = (state, action) => {
 
   return {
     temperatureinCelsius,
-    temperatureinFahrenheit: toF(temperatureinCelsius),
+    temperatureinFahrenheit: toF(temperatureinCelsius || 0),
     description,
     locationName
   };
 };
 
+const handleError = (state: WeatherState, action: WeatherActions) => state;
+
 const handlers = {
-  [actions.WEATHER_DATA_RECEIVED]: weatherDataRecevied
+  [WeatherActionTypes.WEATHER_DATA_RECEIVED]: weatherDataRecevied,
+  [WeatherActionTypes.API_ERROR]: handleError
 };
 
-export default (state = initialState, action) => {
+export default (state = initialState, action: WeatherActions) => {
   const handler = handlers[action.type];
   if (typeof handler === "undefined") return state;
   return handler(state, action);
