@@ -21,7 +21,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const store = createStore();
 const subscriptionClient = new SubscriptionClient(
-  "ws://react.eogresources.com/graphql",
+  "wss://react.eogresources.com/graphql",
   {}
 );
 const client = createClient({
