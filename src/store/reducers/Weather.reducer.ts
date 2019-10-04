@@ -1,9 +1,5 @@
-import {
-  WeatherActions,
-  WeatherActionTypes,
-  WeatherDataReceivedAction
-} from "../actions/Weather.actions";
-import { Weather } from "../../types/Weather.types";
+import { Weather } from '../../types/Weather.types';
+import { WeatherActions, WeatherActionTypes, WeatherDataReceivedAction } from '../actions/Weather.actions';
 export interface WeatherState extends Weather {
   temperatureinFahrenheit: number | null;
 }

@@ -1,20 +1,20 @@
-import React from "react";
-import { useMeasure } from "react-use";
-import dayjs from "dayjs";
-import Paper from "@material-ui/core/Paper";
+import dayjs from 'dayjs';
+import Paper from '@material-ui/core/Paper';
+import React from 'react';
 import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
   CartesianGrid,
+  Legend,
+  Line,
+  LineChart,
   Tooltip,
-  Legend
-} from "recharts";
-import { useSelector } from "react-redux";
-import { makeStyles } from "@material-ui/core/styles";
-import { RootState } from "../store/index";
+  XAxis,
+  YAxis
+  } from 'recharts';
 import { getRandomColor } from '../util/getRandomColor';
+import { makeStyles } from '@material-ui/core/styles';
+import { RootState } from '../store/index';
+import { useMeasure } from 'react-use';
+import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles({
   chartContainer: {

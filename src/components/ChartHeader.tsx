@@ -1,18 +1,18 @@
-import React, { useEffect, ChangeEvent } from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import FormControl from "@material-ui/core/FormControl";
-import Input from "@material-ui/core/Input";
-import InputLabel from "@material-ui/core/InputLabel";
-import Select from "@material-ui/core/Select";
-import MenuItem from "@material-ui/core/MenuItem";
-import Checkbox from "@material-ui/core/Checkbox";
-import ListItemText from "@material-ui/core/ListItemText";
-import { useQuery } from "urql";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../store/index";
-import { MetricsActionTypes } from "../store/actions/Metric.actions";
-import { Paper } from "@material-ui/core";
-import Chip from "@material-ui/core/Chip";
+import Checkbox from '@material-ui/core/Checkbox';
+import Chip from '@material-ui/core/Chip';
+import FormControl from '@material-ui/core/FormControl';
+import Input from '@material-ui/core/Input';
+import InputLabel from '@material-ui/core/InputLabel';
+import ListItemText from '@material-ui/core/ListItemText';
+import MenuItem from '@material-ui/core/MenuItem';
+import React, { ChangeEvent, useEffect } from 'react';
+import Select from '@material-ui/core/Select';
+import { makeStyles } from '@material-ui/core/styles';
+import { MetricsActionTypes } from '../store/actions/Metric.actions';
+import { Paper } from '@material-ui/core';
+import { RootState } from '../store/index';
+import { useDispatch, useSelector } from 'react-redux';
+import { useQuery } from 'urql';
 
 const useStyles = makeStyles(theme => ({
   container: {

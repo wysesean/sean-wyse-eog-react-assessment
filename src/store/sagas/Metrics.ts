@@ -1,9 +1,6 @@
-import {
-  MetricsActionTypes,
-  MetricsSelectedAction
-} from "../actions/Metric.actions";
-import { debounce, put } from "redux-saga/effects";
-import Api from "../api";
+import Api from '../api';
+import { debounce, put } from 'redux-saga/effects';
+import { MetricsActionTypes, MetricsSelectedAction } from '../actions/Metric.actions';
 
 function* fetchSelectedMetrics(action: MetricsSelectedAction) {
   try {

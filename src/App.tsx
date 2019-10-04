@@ -1,23 +1,23 @@
-import React from "react";
-import createStore from "./store";
-import { Provider } from "react-redux";
-import { ToastContainer } from "react-toastify";
-import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import "react-toastify/dist/ReactToastify.css";
-import Header from "./components/Header";
-import Wrapper from "./components/Wrapper";
-import Chart from "./components/Chart";
-import ChartHeader from "./components/ChartHeader";
-import UIThemes from "./themes/ui-themes";
+import Chart from './components/Chart';
+import ChartHeader from './components/ChartHeader';
+import createStore from './store';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import Header from './components/Header';
+import React from 'react';
+import UIThemes from './themes/ui-themes';
+import Wrapper from './components/Wrapper';
 import {
-  Provider as ProviderGraphql,
-  createClient,
   cacheExchange,
+  createClient,
   fetchExchange,
+  Provider as ProviderGraphql,
   subscriptionExchange
-} from "urql";
-import { SubscriptionClient } from "subscriptions-transport-ws";
+  } from 'urql';
+import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
+import { Provider } from 'react-redux';
+import { SubscriptionClient } from 'subscriptions-transport-ws';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const store = createStore();
 const subscriptionClient = new SubscriptionClient(

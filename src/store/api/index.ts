@@ -1,4 +1,4 @@
-import { Measurement } from "../../types/Metric.types";
+import { Measurement } from '../../types/Metric.types';
 
 const GRAPHQL_ENDPOINT = "https://react.eogresources.com/graphql";
 

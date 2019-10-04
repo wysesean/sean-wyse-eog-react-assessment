@@ -1,5 +1,5 @@
-import { Weather } from "../../types/Weather.types";
-import { Action } from "redux";
+import { Action } from 'redux';
+import { Weather } from '../../types/Weather.types';
 
 export enum WeatherActionTypes {
   API_ERROR = "EVENT/API_ERROR_RECEIVED",

@@ -1,11 +1,11 @@
-import { Measurement } from "./../../types/Metric.types";
 import {
+  GetMeasurementsSuccess,
   MetricsActions,
   MetricsActionTypes,
   MetricsReceivedAction,
-  MetricsSelectedAction,
-  GetMeasurementsSuccess
-} from "../actions/Metric.actions";
+  MetricsSelectedAction
+  } from '../actions/Metric.actions';
+import { Measurement } from './../../types/Metric.types';
 export interface MetricState {
   firstTime: number;
   latestTime: number;

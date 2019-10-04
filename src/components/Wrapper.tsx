@@ -1,6 +1,6 @@
-import React from "react";
-import { makeStyles, Theme } from "@material-ui/core/styles";
-import UIThemes from '../themes/ui-themes'
+import React from 'react';
+import UIThemes from '../themes/ui-themes';
+import { makeStyles, Theme } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme: Theme) => ({
   wrapper: {

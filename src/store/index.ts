@@ -1,9 +1,9 @@
-import { createStore, applyMiddleware, combineReducers } from "redux";
-import { composeWithDevTools } from "redux-devtools-extension";
-import createSagaMiddleware from "redux-saga";
-import sagas from "./sagas";
-import weatherReducer, { WeatherState } from "./reducers/Weather.reducer";
-import metricsReducer, { MetricState } from "./reducers/Metrics.reducer";
+import createSagaMiddleware from 'redux-saga';
+import metricsReducer, { MetricState } from './reducers/Metrics.reducer';
+import sagas from './sagas';
+import weatherReducer, { WeatherState } from './reducers/Weather.reducer';
+import { applyMiddleware, combineReducers, createStore } from 'redux';
+import { composeWithDevTools } from 'redux-devtools-extension';
 
 export interface RootState {
   weather: WeatherState;

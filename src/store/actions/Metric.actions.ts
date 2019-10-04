@@ -1,5 +1,5 @@
-import { Measurement } from "./../../types/Metric.types";
-import { Action } from "redux";
+import { Action } from 'redux';
+import { Measurement } from './../../types/Metric.types';
 
 export enum MetricsActionTypes {
   API_ERROR = "EVENT/API_ERROR_RECEIVED",
