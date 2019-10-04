@@ -66,25 +66,21 @@ const getMeasurementsSuccess = (state: MetricState, action: MetricsActions) => {
 };
 
 const handleNewMeasurement = (state: MetricState, action: MetricsActions) => {
-  const { selected } = state;
   const { newMeasurement } = action as NewMeasurementReceivedAction;
-  if (selected.includes(newMeasurement.metric)) {
-    return {
-      ...state,
-      latestTime: new Date().valueOf(),
-      measurements: state.measurements.map(measurement => {
-        if (measurement.metric === newMeasurement.metric) {
-          return {
-            ...measurement,
-            latestMeasurement: newMeasurement,
-            measurements: [...measurement.measurements, newMeasurement]
-          };
-        }
-        return measurement;
-      })
-    };
+  return {
+    ...state,
+    latestTime: new Date().valueOf(),
+    measurements: state.measurements.map(measurement => {
+      if (measurement.metric === newMeasurement.metric) {
+        return {
+          ...measurement,
+          latestMeasurement: newMeasurement,
+          measurements: [...measurement.measurements, newMeasurement]
+        };
+      }
+      return measurement;
+    })
   }
-  return state;
 };
 
 const handlers = {

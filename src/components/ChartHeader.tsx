@@ -103,10 +103,12 @@ export default () => {
     if (selected.length === 0) {
       return [];
     }
-    dispatch({
-      type: MetricsActionTypes.NEW_MEASUREMENT_RECEIVED,
-      ...response
-    });
+    if (selected.includes(response.newMeasurement.metric)) {
+      dispatch({
+        type: MetricsActionTypes.NEW_MEASUREMENT_RECEIVED,
+        ...response
+      });
+    }
     return [response.newMeasurement, ...measurements];
   };
 
