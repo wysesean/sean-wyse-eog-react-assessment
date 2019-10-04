@@ -7,7 +7,6 @@ import {
   MetricsSelectedAction
 } from "../actions/Metric.actions";
 import { Measurement } from "./../../types/Metric.types";
-import { largestValue } from "../../util/largestValue";
 export interface MetricState {
   firstTime: number;
   latestTime: number;
