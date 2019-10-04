@@ -8,13 +8,31 @@ import "react-toastify/dist/ReactToastify.css";
 import Header from "./components/Header";
 import Wrapper from "./components/Wrapper";
 import Chart from "./components/Chart";
-import ChartHeader from './components/ChartHeader';
+import ChartHeader from "./components/ChartHeader";
 import UIThemes from "./themes/ui-themes";
-import { Provider as ProviderGraphql, createClient } from 'urql';
+import {
+  Provider as ProviderGraphql,
+  createClient,
+  cacheExchange,
+  fetchExchange,
+  subscriptionExchange
+} from "urql";
+import { SubscriptionClient } from "subscriptions-transport-ws";
 
 const store = createStore();
+const subscriptionClient = new SubscriptionClient(
+  "ws://react.eogresources.com/graphql",
+  {}
+);
 const client = createClient({
-  url: "https://react.eogresources.com/graphql"
+  url: "https://react.eogresources.com/graphql",
+  exchanges: [
+    cacheExchange,
+    fetchExchange,
+    subscriptionExchange({
+      forwardSubscription: operation => subscriptionClient.request(operation)
+    })
+  ]
 });
 const theme = createMuiTheme({
   palette: { ...UIThemes.palette }

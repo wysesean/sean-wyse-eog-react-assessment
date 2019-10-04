@@ -25,6 +25,7 @@
     "recharts": "^1.7.1",
     "redux": "^4.0.1",
     "redux-saga": "^1.0.3",
+    "subscriptions-transport-ws": "^0.9.16",
     "typescript": "^3.6.3",
     "urql": "^1.1.1"
   },
