@@ -7,18 +7,18 @@ import {
   GetMeasurementsSuccess
 } from "../actions/Metric.actions";
 export interface MetricState {
-  firstTime: number,
+  firstTime: number;
   metrics: string[];
   measurements: {
-    metric: string,
-    unit: string,
-    measurements: Measurement[]
+    metric: string;
+    unit: string;
+    measurements: Measurement[];
   }[];
   selected: string[];
 }
 
 const initialState: MetricState = {
-  firstTime: (new Date()).valueOf(),
+  firstTime: new Date().valueOf(),
   metrics: [],
   measurements: [],
   selected: []
@@ -42,14 +42,19 @@ const selectMetrics = (state: MetricState, action: MetricsActions) => {
   };
 };
 
-const getMeasurementsSuccess = (
-  state: MetricState,
-  action: MetricsActions
-) => {
+const getMeasurementsSuccess = (state: MetricState, action: MetricsActions) => {
   const { getMultipleMeasurements } = action as GetMeasurementsSuccess;
+  const measurements = getMultipleMeasurements.reduce((acc, val): any => {
+    const measurement = {
+      metric: val.metric,
+      unit: val.measurements[0].unit,
+      measurements: val.measurements
+    };
+    return [...acc, measurement];
+  }, []);
   return {
     ...state,
-    measurements: getMultipleMeasurements
+    measurements
   };
 };
 
