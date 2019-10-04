@@ -1,13 +1,13 @@
-import { NewMeasurementReceivedAction } from './../actions/Metric.actions';
+import { NewMeasurementReceivedAction } from "./../actions/Metric.actions";
 import {
   GetMeasurementsSuccess,
   MetricsActions,
   MetricsActionTypes,
   MetricsReceivedAction,
   MetricsSelectedAction
-  } from '../actions/Metric.actions';
-import { Measurement } from './../../types/Metric.types';
-import { largestValue } from '../../util/largestValue';
+} from "../actions/Metric.actions";
+import { Measurement } from "./../../types/Metric.types";
+import { largestValue } from "../../util/largestValue";
 export interface MetricState {
   firstTime: number;
   latestTime: number;
@@ -54,14 +54,14 @@ const getMeasurementsSuccess = (state: MetricState, action: MetricsActions) => {
       metric: val.metric,
       unit: val.measurements[0].unit,
       measurements: val.measurements,
-      latestMeasurement: largestValue(val.measurements, 'at')
+      latestMeasurement: val.measurements[val.measurements.length - 1]
     };
     return [...acc, measurement];
   }, []);
   return {
     ...state,
     measurements,
-    latestTime: (new Date()).valueOf()
+    latestTime: new Date().valueOf()
   };
 };
 
@@ -71,9 +71,9 @@ const handleNewMeasurement = (state: MetricState, action: MetricsActions) => {
   if (selected.includes(newMeasurement.metric)) {
     return {
       ...state,
-      latestTime: (new Date()).valueOf(),
+      latestTime: new Date().valueOf(),
       measurements: state.measurements.map(measurement => {
-        if(measurement.metric === newMeasurement.metric) {
+        if (measurement.metric === newMeasurement.metric) {
           return {
             ...measurement,
             latestMeasurement: newMeasurement,
@@ -82,10 +82,10 @@ const handleNewMeasurement = (state: MetricState, action: MetricsActions) => {
         }
         return measurement;
       })
-    }
+    };
   }
   return state;
-}
+};
 
 const handlers = {
   [MetricsActionTypes.METRICS_RECEIVED]: metricsRecevied,
