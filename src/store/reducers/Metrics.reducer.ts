@@ -1,18 +1,27 @@
+import { Measurement } from "./../../types/Metric.types";
 import {
   MetricsActions,
   MetricsActionTypes,
   MetricsReceivedAction,
-  MetricsSelectedAction
+  MetricsSelectedAction,
+  GetMeasurementsSuccess
 } from "../actions/Metric.actions";
-
 export interface MetricState {
-  metrics: string[],
-  selected: string[]
+  firstTime: number,
+  metrics: string[];
+  measurements: {
+    metric: string,
+    unit: string,
+    measurements: Measurement[]
+  }[];
+  selected: string[];
 }
 
 const initialState: MetricState = {
-    metrics: [],
-    selected: []
+  firstTime: (new Date()).valueOf(),
+  metrics: [],
+  measurements: [],
+  selected: []
 };
 
 const metricsRecevied = (state: MetricState, action: MetricsActions) => {
@@ -31,11 +40,24 @@ const selectMetrics = (state: MetricState, action: MetricsActions) => {
     ...state,
     selected
   };
-}
+};
+
+const getMeasurementsSuccess = (
+  state: MetricState,
+  action: MetricsActions
+) => {
+  const { getMultipleMeasurements } = action as GetMeasurementsSuccess;
+  return {
+    ...state,
+    measurements: getMultipleMeasurements
+  };
+};
 
 const handlers = {
   [MetricsActionTypes.METRICS_RECEIVED]: metricsRecevied,
   [MetricsActionTypes.METRICS_SELECTED]: selectMetrics,
+  [MetricsActionTypes.GET_MEASUREMENTS_SUCCESS]: getMeasurementsSuccess,
+  [MetricsActionTypes.GET_MEASUREMENTS_ERROR]: handleError,
   [MetricsActionTypes.API_ERROR]: handleError
 };
 

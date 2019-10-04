@@ -11,8 +11,9 @@ import {
   Tooltip,
   Legend
 } from "recharts";
-
+import { useSelector } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
+import { RootState } from "../store/index";
 
 const useStyles = makeStyles({
   chartContainer: {
@@ -35,9 +36,19 @@ const data = [
   { name: "Page G", uv: 3490, pv: 4300, amt: 2100 }
 ];
 
+const getMetrics = (state: RootState) => {
+  const { selected, metrics } = state.metrics;
+  return {
+    selected,
+    metrics
+  };
+};
+
+
 export default () => {
   const classes = useStyles();
   const [ref, { width = 500, height = 300 }] = useMeasure();
+  const { selected } = useSelector(getMetrics);
 
   return (
     <div ref={ref} className={classes.chartContainer}>

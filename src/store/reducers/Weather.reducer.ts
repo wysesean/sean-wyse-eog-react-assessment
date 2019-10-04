@@ -3,7 +3,7 @@ import {
   WeatherActionTypes,
   WeatherDataReceivedAction
 } from "../actions/Weather.actions";
-import { Weather } from "../../types/Weather";
+import { Weather } from "../../types/Weather.types";
 export interface WeatherState extends Weather {
   temperatureinFahrenheit: number | null;
 }

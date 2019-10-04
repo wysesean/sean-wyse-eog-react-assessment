@@ -50,22 +50,24 @@ query {
 `;
 
 const getMetrics = (state: RootState) => {
-  const { selected, metrics } = state.metrics;
+  const { selected, metrics, firstTime } = state.metrics;
   return {
     selected,
-    metrics
+    metrics,
+    firstTime
   };
 };
 
 export default () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const { selected, metrics } = useSelector(getMetrics);
+  const { selected, metrics, firstTime } = useSelector(getMetrics);
 
   const handleChange = (event: ChangeEvent<any>): void => {
     dispatch({
       type: MetricsActionTypes.METRICS_SELECTED,
-      selected: event.target.value
+      selected: event.target.value,
+      time: firstTime
     });
   };
 
