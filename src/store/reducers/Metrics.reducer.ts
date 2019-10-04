@@ -8,6 +8,7 @@ import {
 } from "../actions/Metric.actions";
 export interface MetricState {
   firstTime: number;
+  latestTime: number;
   metrics: string[];
   measurements: {
     metric: string;
@@ -18,6 +19,7 @@ export interface MetricState {
 }
 
 const initialState: MetricState = {
+  latestTime: new Date().valueOf(),
   firstTime: new Date().valueOf(),
   metrics: [],
   measurements: [],
@@ -54,7 +56,8 @@ const getMeasurementsSuccess = (state: MetricState, action: MetricsActions) => {
   }, []);
   return {
     ...state,
-    measurements
+    measurements,
+    latestTime: (new Date()).valueOf()
   };
 };
 
