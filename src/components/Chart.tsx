@@ -14,6 +14,7 @@ import {
 import { useSelector } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import { RootState } from "../store/index";
+import { getRandomColor } from '../util/getRandomColor';
 
 const useStyles = makeStyles({
   chartContainer: {
@@ -91,12 +92,14 @@ export default () => {
           <Tooltip labelFormatter={timeFormatterLabel} />
           <Legend />
           {measurements.map(measurement => {
+            const randomColor = getRandomColor(measurement.metric);
             return (
               <Line
                 key={measurement.metric}
                 yAxisId={measurement.metric}
                 dataKey={measurement.metric}
                 label={measurement.unit}
+                stroke={randomColor}
                 dot={false}
               />
             );

@@ -12,12 +12,20 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store/index";
 import { MetricsActionTypes } from "../store/actions/Metric.actions";
 import { Paper } from "@material-ui/core";
+import Chip from "@material-ui/core/Chip";
 
 const useStyles = makeStyles(theme => ({
   container: {
     display: "flex",
     flexGrow: 1,
     margin: "8px 16px"
+  },
+  chips: {
+    display: "flex",
+    flexWrap: "wrap"
+  },
+  chip: {
+    margin: "2px"
   },
   paper: {
     width: "100%",
@@ -100,7 +108,13 @@ export default () => {
             value={selected}
             onChange={handleChange}
             input={<Input id="select-multiple-checkbox" />}
-            renderValue={selected => (selected as string[]).join(", ")}
+            renderValue={(selected: any) => (
+              <div className={classes.chips}>
+                {selected.map((value: any) => (
+                  <Chip key={value} label={value} className={classes.chip} />
+                ))}
+              </div>
+            )}
             MenuProps={MenuProps}
           >
             {metrics.map(name => (
