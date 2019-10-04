@@ -4,4 +4,6 @@
 
 This assessment was bespoke handcrafted for Sean-Wyse.
 
+Live version available [here](https://nifty-murdock-408797.netlify.com/)
+
 Read more about this assessment [here](https://react.eogresources.com)
