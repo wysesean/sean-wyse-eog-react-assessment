@@ -1,18 +1,20 @@
-import Checkbox from '@material-ui/core/Checkbox';
-import Chip from '@material-ui/core/Chip';
-import FormControl from '@material-ui/core/FormControl';
-import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
-import ListItemText from '@material-ui/core/ListItemText';
-import MenuItem from '@material-ui/core/MenuItem';
-import React, { ChangeEvent, useEffect } from 'react';
-import Select from '@material-ui/core/Select';
-import { makeStyles } from '@material-ui/core/styles';
-import { MetricsActionTypes } from '../store/actions/Metric.actions';
-import { Paper } from '@material-ui/core';
-import { RootState } from '../store/index';
-import { useDispatch, useSelector } from 'react-redux';
-import { useQuery } from 'urql';
+import Checkbox from "@material-ui/core/Checkbox";
+import Chip from "@material-ui/core/Chip";
+import FormControl from "@material-ui/core/FormControl";
+import Input from "@material-ui/core/Input";
+import InputLabel from "@material-ui/core/InputLabel";
+import ListItemText from "@material-ui/core/ListItemText";
+import MenuItem from "@material-ui/core/MenuItem";
+import React, { ChangeEvent, useEffect } from "react";
+import Select from "@material-ui/core/Select";
+import { makeStyles } from "@material-ui/core/styles";
+import { MetricsActionTypes } from "../store/actions/Metric.actions";
+import { Paper } from "@material-ui/core";
+import { RootState } from "../store/index";
+import { useDispatch, useSelector } from "react-redux";
+import { useQuery, useSubscription } from "urql";
+import { Measurement } from "../types/Metric.types";
+import gql from "graphql-tag";
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -56,20 +58,32 @@ query {
   getMetrics
 }
 `;
+const NewMeasurementSubQuery = gql`
+  subscription {
+    newMeasurement {
+      metric
+      at
+      value
+      unit
+    }
+  }
+`;
 
 const getMetrics = (state: RootState) => {
-  const { selected, metrics, firstTime } = state.metrics;
+  const { selected, metrics, firstTime, measurements } = state.metrics;
+
   return {
     selected,
     metrics,
-    firstTime
+    firstTime,
+    measurements
   };
 };
 
 export default () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const { selected, metrics, firstTime } = useSelector(getMetrics);
+  const { selected, metrics, firstTime, measurements } = useSelector(getMetrics);
 
   const handleChange = (event: ChangeEvent<any>): void => {
     dispatch({
@@ -78,12 +92,35 @@ export default () => {
       time: firstTime
     });
   };
+  const handleSubscription: any = (
+    measurements: any[] = [],
+    response: { newMeasurement: Measurement }
+  ) => {
+    if (selected.length === 0) {
+      return [];
+    }
+    dispatch({
+      type: MetricsActionTypes.NEW_MEASUREMENT_RECEIVED,
+      ...response
+    })
+    return [response.newMeasurement, ...measurements];
+  };
 
   const [result] = useQuery({
     query
   });
-
+  const [subscriptionResult] = useSubscription(
+    { query: NewMeasurementSubQuery },
+    handleSubscription
+  );
   const { data, error } = result;
+
+  if (subscriptionResult.error !== undefined) {
+    dispatch({
+      type: MetricsActionTypes.SUBSCRIPTION_ERROR,
+      error: subscriptionResult.error
+    });
+  }
 
   useEffect(() => {
     if (error) {
@@ -110,8 +147,12 @@ export default () => {
             input={<Input id="select-multiple-checkbox" />}
             renderValue={(selected: any) => (
               <div className={classes.chips}>
-                {selected.map((value: any) => (
-                  <Chip key={value} label={value} className={classes.chip} />
+                {measurements.map((value: any) => (
+                  <Chip
+                    key={value.metric}
+                    label={`${value.metric}: ${value.latestMeasurement.value} ${value.latestMeasurement.unit}`}
+                    className={classes.chip}
+                  />
                 ))}
               </div>
             )}

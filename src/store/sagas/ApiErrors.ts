@@ -1,3 +1,4 @@
+import { MetricsActionTypes } from './../actions/Metric.actions';
 import { APIErrorAction, WeatherActionTypes } from '../actions/Weather.actions';
 import { call, takeEvery } from 'redux-saga/effects';
 import { toast } from 'react-toastify';
@@ -7,7 +8,14 @@ function* apiErrorReceived(action: APIErrorAction) {
 }
 
 function* watchApiError() {
-  yield takeEvery(WeatherActionTypes.API_ERROR, apiErrorReceived);
+  yield takeEvery(
+    WeatherActionTypes.API_ERROR || MetricsActionTypes.API_ERROR,
+    apiErrorReceived
+  );
 }
 
-export default [watchApiError];
+function* watchSubscriptionError() {
+  yield takeEvery(MetricsActionTypes.SUBSCRIPTION_ERROR, apiErrorReceived);
+}
+
+export default [watchApiError, watchSubscriptionError];

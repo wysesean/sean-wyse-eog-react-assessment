@@ -1,3 +1,4 @@
+import { NewMeasurementReceivedAction } from './../actions/Metric.actions';
 import {
   GetMeasurementsSuccess,
   MetricsActions,
@@ -6,6 +7,7 @@ import {
   MetricsSelectedAction
   } from '../actions/Metric.actions';
 import { Measurement } from './../../types/Metric.types';
+import { largestValue } from '../../util/largestValue';
 export interface MetricState {
   firstTime: number;
   latestTime: number;
@@ -14,6 +16,7 @@ export interface MetricState {
     metric: string;
     unit: string;
     measurements: Measurement[];
+    latestMeasurement: Measurement;
   }[];
   selected: string[];
 }
@@ -50,7 +53,8 @@ const getMeasurementsSuccess = (state: MetricState, action: MetricsActions) => {
     const measurement = {
       metric: val.metric,
       unit: val.measurements[0].unit,
-      measurements: val.measurements
+      measurements: val.measurements,
+      latestMeasurement: largestValue(val.measurements, 'at')
     };
     return [...acc, measurement];
   }, []);
@@ -61,11 +65,35 @@ const getMeasurementsSuccess = (state: MetricState, action: MetricsActions) => {
   };
 };
 
+const handleNewMeasurement = (state: MetricState, action: MetricsActions) => {
+  const { selected } = state;
+  const { newMeasurement } = action as NewMeasurementReceivedAction;
+  if (selected.includes(newMeasurement.metric)) {
+    return {
+      ...state,
+      latestTime: (new Date()).valueOf(),
+      measurements: state.measurements.map(measurement => {
+        if(measurement.metric === newMeasurement.metric) {
+          return {
+            ...measurement,
+            latestMeasurement: newMeasurement,
+            measurements: [...measurement.measurements, newMeasurement]
+          };
+        }
+        return measurement;
+      })
+    }
+  }
+  return state;
+}
+
 const handlers = {
   [MetricsActionTypes.METRICS_RECEIVED]: metricsRecevied,
   [MetricsActionTypes.METRICS_SELECTED]: selectMetrics,
   [MetricsActionTypes.GET_MEASUREMENTS_SUCCESS]: getMeasurementsSuccess,
   [MetricsActionTypes.GET_MEASUREMENTS_ERROR]: handleError,
+  [MetricsActionTypes.NEW_MEASUREMENT_RECEIVED]: handleNewMeasurement,
+  [MetricsActionTypes.SUBSCRIPTION_ERROR]: handleError,
   [MetricsActionTypes.API_ERROR]: handleError
 };
 
