@@ -1,20 +1,22 @@
-import Checkbox from "@material-ui/core/Checkbox";
-import Chip from "@material-ui/core/Chip";
-import FormControl from "@material-ui/core/FormControl";
-import Input from "@material-ui/core/Input";
-import InputLabel from "@material-ui/core/InputLabel";
-import ListItemText from "@material-ui/core/ListItemText";
-import MenuItem from "@material-ui/core/MenuItem";
-import React, { ChangeEvent, useEffect } from "react";
-import Select from "@material-ui/core/Select";
-import { makeStyles } from "@material-ui/core/styles";
-import { MetricsActionTypes } from "../store/actions/Metric.actions";
-import { Paper } from "@material-ui/core";
-import { RootState } from "../store/index";
-import { useDispatch, useSelector } from "react-redux";
-import { useQuery, useSubscription } from "urql";
-import { Measurement } from "../types/Metric.types";
-import gql from "graphql-tag";
+import gql from 'graphql-tag';
+import React, { ChangeEvent, useEffect } from 'react';
+import {
+  Checkbox,
+  Chip,
+  FormControl,
+  Input,
+  InputLabel,
+  ListItemText,
+  MenuItem,
+  Paper,
+  Select
+  } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+import { Measurement } from '../types/Metric.types';
+import { MetricsActionTypes } from '../store/actions/Metric.actions';
+import { RootState } from '../store/index';
+import { useDispatch, useSelector } from 'react-redux';
+import { useQuery, useSubscription } from 'urql';
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -83,7 +85,9 @@ const getMetrics = (state: RootState) => {
 export default () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const { selected, metrics, firstTime, measurements } = useSelector(getMetrics);
+  const { selected, metrics, firstTime, measurements } = useSelector(
+    getMetrics
+  );
 
   const handleChange = (event: ChangeEvent<any>): void => {
     dispatch({
@@ -102,7 +106,7 @@ export default () => {
     dispatch({
       type: MetricsActionTypes.NEW_MEASUREMENT_RECEIVED,
       ...response
-    })
+    });
     return [response.newMeasurement, ...measurements];
   };
 
